@@ -13,9 +13,8 @@ const putInBucket = async (
   uuid,
   bucketName = 'conifer-test-output-bucket'
 ) => {
-  //removed export
   try {
-    const REGION = 'us-west-1'; //e.g. "us-west-1"
+    const REGION = 'us-west-1';
     const s3Client = new S3Client({ region: REGION });
     const fileStream = fs.createReadStream(pathString);
 
@@ -44,3 +43,5 @@ observer.on('file-added', (log) => {
 });
 
 observer.watchFolder(folder);
+
+
