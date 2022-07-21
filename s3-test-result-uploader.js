@@ -4,7 +4,7 @@ const { PutObjectCommand, S3Client } = require('@aws-sdk/client-s3');
 const putInBucket = async (
   pathString,
   uuid,
-  bucketName = 'conifer-test-output-bucket'
+  bucketName,
 ) => {
   try {
     const REGION = 'us-west-1'; // TODO: how to get users's region? conifer cdk output? 
