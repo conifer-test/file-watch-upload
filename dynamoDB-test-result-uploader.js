@@ -1,7 +1,6 @@
 const { PutItemCommand, DynamoDBClient } = require('@aws-sdk/client-dynamodb');
 const { marshall } = require('@aws-sdk/util-dynamodb');
 
-
 // TODO: 2 options for ddbClient - either use the existing one in CLI or create a new one. 
 // Currently, it is hard coded to a new one for testing purposes.
 // const { ddbClient } = require('./ddbClient'); get it from conifer config?
@@ -25,7 +24,7 @@ const updateExisitingTestFileInDynamo  = async (reportFilePath) => {
     const json = JSON.parse(rawData);
 
     // TODO: Sync how to get the Test Run ID logic with the rest of the flow.
-    //  const testRunID = fs.readFileSync('/Users/ainaasakinah/Code/capstone_research/conifer/test-run-id.txt', 'utf-8');
+    // const testRunID = fs.readFileSync('/Users/ainaasakinah/Code/capstone_research/conifer/test-run-id.txt', 'utf-8');
     const testRunID = '6ff736cd-80da-4694-a1f2-7ec50dcd1933'; 
     const testFileName = json.results[0].fullFile;
     const passPercent = json.results[0].passPercent;
@@ -51,15 +50,17 @@ const updateExisitingTestFileInDynamo  = async (reportFilePath) => {
   }
 };
 
-observer.on('file-added', (log) => {
-  // print error message to console
-  console.log(`File was added: ${log.filePath}`);
+module.exports = updateExisitingTestFileInDynamo;
 
-  // TODO: Need to test and ensure this file path matches file globbing which is the base used to create primary keys
-  const fullFilePath = `./${log.filePath}`;
+// observer.on('file-added', (log) => {
+//   // print error message to console
+//   console.log(`File was added: ${log.filePath}`);
 
-  // Update the corresponsing test file in dynamoDB
-  updateExisitingTestFileInDynamo(fullFilePath);
-});
+//   // TODO: Need to test and ensure this file path matches file globbing which is the base used to create primary keys
+//   const fullFilePath = `./${log.filePath}`;
 
-observer.watchFolder(folder);
+//   // Update the corresponsing test file in dynamoDB
+//   updateExisitingTestFileInDynamo(fullFilePath);
+// });
+
+// observer.watchFolder(folder);

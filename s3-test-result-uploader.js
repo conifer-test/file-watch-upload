@@ -32,16 +32,18 @@ const putInBucket = async (
   }
 };
 
-observer.on('file-added', (log) => {
-  // print error message to console
-  console.log(`File was added: ${log.filePath}`);
+module.exports = putInBucket;
 
-  const uuid = path.parse(log.filePath).name;
+// observer.on('file-added', (log) => {
+//   // print error message to console
+//   console.log(`File was added: ${log.filePath}`);
 
-  // Export file to s3 bucket
-  putInBucket(log.filePath, uuid);
-});
+//   const uuid = path.parse(log.filePath).name;
 
-observer.watchFolder(folder);
+//   // Export file to s3 bucket
+//   putInBucket(log.filePath, uuid);
+// });
+
+// observer.watchFolder(folder);
 
 

@@ -3,6 +3,9 @@ const observer = new Observer();
 const config = JSON.parse(fs.readFileSync(CONIFER_CONFIG_FILE));
 const folder = `${config.testDirectory}/results`;
 
+const putInBucket = require('./s3-test-result-uploader');
+const updateExisitingTestFileInDynamo = require('./dynamoDB-test-result-uploader');
+
 observer.on('file-added', (log) => {
   // print error message to console
   console.log(`File was added: ${log.filePath}`);
