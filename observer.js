@@ -1,13 +1,12 @@
 const Observer = require('./test-folder-watcher');
 const observer = new Observer();
-const config = JSON.parse(fs.readFileSync(CONIFER_CONFIG_FILE));
-const folder = `${config.testDirectory}/results`;
+const config = JSON.parse(fs.readFileSync('/app/.conifer/conifer-config.json'));
+
+// const folder = `${config.testDirectory}/results`;
+const folder = `/app/cypress/results`;
 
 const putInBucket = require('./s3-test-result-uploader');
 const updateExisitingTestFileInDynamo = require('./dynamoDB-test-result-uploader');
-
-console.log(putInBucket);
-console.log(updateExisitingTestFileInDynamo);
 
 observer.on('file-added', (log) => {
   // print error message to console
