@@ -26,4 +26,3 @@ const putInBucket = async (
 };
 
 module.exports = putInBucket;
-
