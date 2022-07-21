@@ -6,6 +6,9 @@ const folder = `${config.testDirectory}/results`;
 const putInBucket = require('./s3-test-result-uploader');
 const updateExisitingTestFileInDynamo = require('./dynamoDB-test-result-uploader');
 
+console.log(putInBucket);
+console.log(updateExisitingTestFileInDynamo);
+
 observer.on('file-added', (log) => {
   // print error message to console
   console.log(`File was added: ${log.filePath}`);

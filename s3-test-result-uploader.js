@@ -1,11 +1,4 @@
-const path = require('path');
 const fs = require('fs');
-
-const Observer = require('./test-folder-watcher');
-const observer = new Observer();
-const config = JSON.parse(fs.readFileSync(CONIFER_CONFIG_FILE));
-const folder = `${config.testDirectory}/results`;
-
 const { PutObjectCommand, S3Client } = require('@aws-sdk/client-s3');
 
 const putInBucket = async (
@@ -33,17 +26,4 @@ const putInBucket = async (
 };
 
 module.exports = putInBucket;
-
-// observer.on('file-added', (log) => {
-//   // print error message to console
-//   console.log(`File was added: ${log.filePath}`);
-
-//   const uuid = path.parse(log.filePath).name;
-
-//   // Export file to s3 bucket
-//   putInBucket(log.filePath, uuid);
-// });
-
-// observer.watchFolder(folder);
-
 

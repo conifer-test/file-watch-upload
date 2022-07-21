@@ -1,20 +1,16 @@
 const { PutItemCommand, DynamoDBClient } = require('@aws-sdk/client-dynamodb');
 const { marshall } = require('@aws-sdk/util-dynamodb');
+const fs = require('fs');
 
 // TODO: 2 options for ddbClient - either use the existing one in CLI or create a new one. 
 // Currently, it is hard coded to a new one for testing purposes.
 // const { ddbClient } = require('./ddbClient'); get it from conifer config?
 
 // TODO: Either use ddbClient or set the AWS Region using the config file.
-const REGION = 'ap-northeast-1'; 
+const REGION = 'ap-northeast-1';  
 // TODO: Create an Amazon DynamoDB service client object.
 const ddbClient = new DynamoDBClient({ region: REGION });
 
-const fs = require('fs');
-const path = require('path');
-const Observer = require('./test-folder-watcher');
-const observer = new Observer();
-const folder = `./cypress/newResults`;
 
 // TODO: figure out here putItem needs to be called and remove hard-coded values
 const updateExisitingTestFileInDynamo  = async (reportFilePath) => {
@@ -51,16 +47,3 @@ const updateExisitingTestFileInDynamo  = async (reportFilePath) => {
 };
 
 module.exports = updateExisitingTestFileInDynamo;
-
-// observer.on('file-added', (log) => {
-//   // print error message to console
-//   console.log(`File was added: ${log.filePath}`);
-
-//   // TODO: Need to test and ensure this file path matches file globbing which is the base used to create primary keys
-//   const fullFilePath = `./${log.filePath}`;
-
-//   // Update the corresponsing test file in dynamoDB
-//   updateExisitingTestFileInDynamo(fullFilePath);
-// });
-
-// observer.watchFolder(folder);
