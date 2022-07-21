@@ -15,7 +15,7 @@ observer.on('file-added', (log) => {
   const uuid = path.parse(log.filePath).name;
 
   // Export file to s3 bucket
-  putInBucket(log.filePath, uuid);
+  putInBucket(log.filePath, uuid, config.bucketName);
 
   // TODO: Need to test and ensure this file path matches file globbing which is the base used to create primary keys
   const fullFilePath = `./${log.filePath}`;
