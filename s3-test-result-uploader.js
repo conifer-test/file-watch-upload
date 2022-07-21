@@ -8,9 +8,8 @@ const config = JSON.parse(fs.readFileSync('/app/.conifer/conifer-config.json'));
 
 // const folder = `${config.testDirectory}/results`;
 const folder = `/app/cypress/results`;
-const cdkOutputs = JSON.parse(fs.readFileSync('/app/.conifer/cdk_outputs.json'));
 
-const putInBucket = async (pathString, uuid, bucketName = cdkOutputs.ConiferCdkStack.bucketName) => {
+const putInBucket = async (pathString, uuid, bucketName = config.bucketName) => {
   //removed export
   try {
     const REGION = "us-west-1"; //e.g. "us-west-1"
