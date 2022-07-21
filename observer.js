@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const Observer = require('./test-folder-watcher');
 const observer = new Observer();
 const config = JSON.parse(fs.readFileSync('/app/.conifer/conifer-config.json'));
