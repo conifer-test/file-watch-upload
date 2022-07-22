@@ -1,13 +1,15 @@
 const { PutItemCommand, DynamoDBClient } = require('@aws-sdk/client-dynamodb');
 const { marshall } = require('@aws-sdk/util-dynamodb');
 const fs = require('fs');
+const config = JSON.parse(fs.readFileSync('/app/.conifer/conifer-config.json'));
+require('dotenv').config();
 
 // TODO: 2 options for ddbClient - either use the existing one in CLI or create a new one. 
 // Currently, it is hard coded to a new one for testing purposes.
 // const { ddbClient } = require('./ddbClient'); get it from conifer config?
 
 // TODO: Either use ddbClient or set the AWS Region using the config file.
-const REGION = 'ap-northeast-1';  
+const REGION = config.awsRegion;  
 // TODO: Create an Amazon DynamoDB service client object.
 const ddbClient = new DynamoDBClient({ region: REGION });
 
@@ -21,7 +23,7 @@ const updateExisitingTestFileInDynamo  = async (reportFilePath) => {
 
     // TODO: Sync how to get the Test Run ID logic with the rest of the flow.
     // const testRunID = fs.readFileSync('/Users/ainaasakinah/Code/capstone_research/conifer/test-run-id.txt', 'utf-8');
-    const testRunID = '6ff736cd-80da-4694-a1f2-7ec50dcd1933'; 
+    const testRunID = process.env.TEST_RUN_ID; 
     const testFileName = json.results[0].fullFile;
     const passPercent = json.results[0].passPercent;
 
@@ -30,7 +32,13 @@ const updateExisitingTestFileInDynamo  = async (reportFilePath) => {
     // - .cy and .spec is not included in the mochawesome file name
     json.testFileName = `./${testFileName}`; 
     json.testRunID = testRunID;
-    json.status = passPercent === 100 ? 'pass' : 'fail';
+
+    const TARGET_PERCENTAGE = 100;
+    if (passPercent === TARGET_PERCENTAGE) {
+      json.status = 'pass';
+    } else {
+      json.status = 'fail';
+    }
 
     const params = {
       TableName: 'Conifer_Test_Runs',
