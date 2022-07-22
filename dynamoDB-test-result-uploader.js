@@ -37,7 +37,8 @@ const updateExisitingTestFileInDynamo  = async (reportFilePath) => {
 
     // TODO: Sync how to get the Test Run ID logic with the rest of the flow.
     // const testRunID = fs.readFileSync('/Users/ainaasakinah/Code/capstone_research/conifer/test-run-id.txt', 'utf-8');
-    const testRunID = process.env.TEST_RUN_ID; 
+    // const testRunID = process.env.TEST_RUN_ID;
+    const testRunID = 'jksfhgiuhsrkhjhkgj';
     const testFileName = json.results[0].fullFile;
     const passPercent = json.results[0].passPercent;
 
