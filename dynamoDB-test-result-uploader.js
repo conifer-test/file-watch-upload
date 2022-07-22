@@ -4,14 +4,28 @@ const fs = require('fs');
 const config = JSON.parse(fs.readFileSync('/app/.conifer/conifer-config.json'));
 require('dotenv').config();
 
-// TODO: 2 options for ddbClient - either use the existing one in CLI or create a new one. 
-// Currently, it is hard coded to a new one for testing purposes.
-// const { ddbClient } = require('./ddbClient'); get it from conifer config?
+const { DynamoDBDocumentClient } = require('@aws-sdk/lib-dynamodb');
 
-// TODO: Either use ddbClient or set the AWS Region using the config file.
 const REGION = config.awsRegion;  
-// TODO: Create an Amazon DynamoDB service client object.
 const ddbClient = new DynamoDBClient({ region: REGION });
+const marshallOptions = {
+  // Whether to automatically convert empty strings, blobs, and sets to `null`.
+  convertEmptyValues: false, // false, by default.
+  // Whether to remove undefined values while marshalling.
+  removeUndefinedValues: false, // false, by default.
+  // Whether to convert typeof object to map attribute.
+  convertClassInstanceToMap: false, // false, by default.
+};
+
+const unmarshallOptions = {
+  // Whether to return numbers as a string instead of converting them to native JavaScript numbers.
+  wrapNumbers: false, // false, by default.
+};
+
+const translateConfig = { marshallOptions, unmarshallOptions };
+
+const ddbDocClient = DynamoDBDocumentClient.from(ddbClient, translateConfig);
+
 
 
 // TODO: figure out here putItem needs to be called and remove hard-coded values
@@ -46,7 +60,7 @@ const updateExisitingTestFileInDynamo  = async (reportFilePath) => {
       Item: marshall(json)
     };
 
-    const data = await ddbClient.send(new PutItemCommand(params));
+    const data = await ddbDocClient.send(new PutItemCommand(params));
     console.log('Item Updated', data);
     return data;
   } catch (err) {
