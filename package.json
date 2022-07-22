@@ -1,0 +1,22 @@
+{
+  "name": "file-watch-upload",
+  "version": "0.0.1",
+  "description": "",
+  "main": "observer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/conifer-test/file-watch-upload.git"
+  },
+  "author": "Ahmad Jiha, Ainaa Sakinah, Lawrence Tam, Sam Harreschou",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/conifer-test/file-watch-upload/issues"
+  },
+  "homepage": "https://github.com/conifer-test/file-watch-upload#readme",
+  "devDependencies": {
+    "eslint": "^8.20.0"
+  }
+}
