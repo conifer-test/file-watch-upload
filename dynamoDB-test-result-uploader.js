@@ -44,7 +44,7 @@ const updateExisitingTestFileInDynamo  = async (reportFilePath) => {
     // The json must include the primary key, testFileName and sort key, testRunID to successfully upload
     // We grab the full spec name from the json file because we need the .cy or .spec file name to update existing file in dynamoDB
     // - .cy and .spec is not included in the mochawesome file name
-    json.testFileName = `./${testFileName}`; 
+    json.testFileName = testFileName; 
     json.testRunID = testRunID;
 
     const TARGET_PERCENTAGE = 100;
