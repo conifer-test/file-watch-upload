@@ -20,7 +20,7 @@ observer.on('file-added', (log) => {
   putInBucket(log.filePath, uuid, config.bucketName);
 
   // TODO: Need to test and ensure this file path matches file globbing which is the base used to create primary keys
-  const fullFilePath = `./${log.filePath}`;
+  const fullFilePath = `${log.filePath}`;
 
   // Update the corresponsing test file in dynamoDB
   updateExisitingTestFileInDynamo(fullFilePath);
