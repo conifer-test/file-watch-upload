@@ -23,7 +23,9 @@ observer.on('file-added', (log) => {
   const fullFilePath = `${log.filePath}`;
 
   // Update the corresponsing test file in dynamoDB
-  updateExisitingTestFileInDynamo(fullFilePath);
+  if (!/mochawesome/.test(log.filePath)) {
+    updateExisitingTestFileInDynamo(fullFilePath);
+  }
 });
 
 observer.watchFolder(folder);

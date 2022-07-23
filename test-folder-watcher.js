@@ -20,9 +20,12 @@ class Observer extends EventEmitter {
           );
 
           // emit an event when new file has been added
-          this.emit('file-added', {
-            filePath
-          });
+          const DELAY_BEFORE_WRITE = 1000;
+          setTimeout(() => {
+            this.emit('file-added', {
+              filePath
+            });
+          }, DELAY_BEFORE_WRITE);
         }
       });
     } catch (error) {
