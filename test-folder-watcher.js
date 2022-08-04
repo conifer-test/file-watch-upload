@@ -16,12 +16,20 @@ class Observer extends EventEmitter {
         folder,
         {
           persistent: true,
-          awaitWriteFinish: {
-            stabilityThreshold: 2000,
-            pollInterval: 100
-          }
         }
       );
+
+      watcher.on('unlink', async filePath => {
+        if (filePath.includes('-compressed.mp4')) {
+          console.log(
+            `[${new Date().toLocaleString()}] ${filePath} has been added.`
+          );
+
+          this.emit('mp4-file-added', {
+            filePath: filePath.replace(/-compressed.mp4/, '.mp4')
+          });
+        }
+      });
 
       watcher.on('add', async filePath => {
         // Only fire an event if a .json file is created
@@ -34,17 +42,6 @@ class Observer extends EventEmitter {
           const DELAY_BEFORE_WRITE = 1000;
           setTimeout(() => {
             this.emit('json-file-added', {
-              filePath
-            });
-          }, DELAY_BEFORE_WRITE);
-        } else if (filePath.includes('.mp4') && !filePath.includes('-compressed.mp4') && !filePath.includes('.mp4.meta')) {
-          console.log(
-            `[${new Date().toLocaleString()}] ${filePath} has been added.`
-          );
-
-          const DELAY_BEFORE_WRITE = 5000;
-          setTimeout(() => {
-            this.emit('mp4-file-added', {
               filePath
             });
           }, DELAY_BEFORE_WRITE);
