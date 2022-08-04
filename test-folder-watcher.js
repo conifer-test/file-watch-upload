@@ -48,6 +48,17 @@ class Observer extends EventEmitter {
               filePath
             });
           }, DELAY_BEFORE_WRITE);
+        } else if (filePath.includes('.png')) {
+          console.log(
+            `[${new Date().toLocaleString()}] ${filePath} has been added.`
+          );
+
+          const DELAY_BEFORE_WRITE = 1000;
+          setTimeout(() => {
+            this.emit('png-file-added', {
+              filePath
+            });
+          }, DELAY_BEFORE_WRITE);
         }
       });
     } catch (error) {
