@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { PutObjectCommand, S3Client } = require('@aws-sdk/client-s3');
 const config = JSON.parse(fs.readFileSync('/app/.conifer/conifer-config.json'));
+require('dotenv').config();
 
 const fileEndingToFileType = (fileEnding) => {
   switch (fileEnding) {
@@ -27,7 +28,7 @@ const putInBucket = async (
     const fileStream = fs.createReadStream(pathString);
     const uploadParams = {
       Bucket: bucketName,
-      Key: `${config.testRunId}/${fileEndingToFileType(fileType)}/${uuid}.${fileType}`,
+      Key: `${process.env.TEST_RUN_ID}/${fileEndingToFileType(fileType)}/${uuid}.${fileType}`,
       Body: fileStream,
     };
 
