@@ -2,6 +2,7 @@ const { PutItemCommand, DynamoDBClient } = require('@aws-sdk/client-dynamodb');
 const { marshall } = require('@aws-sdk/util-dynamodb');
 const fs = require('fs');
 const config = JSON.parse(fs.readFileSync('/app/.conifer/conifer-config.json'));
+const path = require('path');
 require('dotenv').config();
 
 const { DynamoDBDocumentClient } = require('@aws-sdk/lib-dynamodb');
@@ -45,6 +46,10 @@ const updateExisitingTestFileInDynamo = async (reportFilePath) => {
     // - .cy and .spec is not included in the mochawesome file name
     json.testFileName = testFileName;
     json.testRunID = testRunID;
+    // https://conifer-test-bucket-b586993c-2641-45fc-a6d0-1edf75b711ca.s3.us-west-1.amazonaws.com/7f46bad3-b2b0-439a-9a2d-ecd43f2bd673/videos/todo.cy.js.mp4
+    const bucketUrl = `https://${config.bucketName}.s3.${REGION}.amazonaws.com/${testRunID}`
+    json.videoUrl = `${testRunID}/videos/${path.parse(testFileName).name}.mp4`;
+    // json.screenshotUrl = `${bucketUrl}/screenshots/${testFileName}.png`;
 
     const TARGET_PERCENTAGE = 100;
     if (passPercent === TARGET_PERCENTAGE) {
