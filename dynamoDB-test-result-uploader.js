@@ -47,8 +47,9 @@ const updateExisitingTestFileInDynamo = async (reportFilePath) => {
     json.testFileName = testFileName;
     json.testRunID = testRunID;
     // https://conifer-test-bucket-b586993c-2641-45fc-a6d0-1edf75b711ca.s3.us-west-1.amazonaws.com/7f46bad3-b2b0-439a-9a2d-ecd43f2bd673/videos/todo.cy.js.mp4
-    const bucketUrl = `https://${config.bucketName}.s3.${REGION}.amazonaws.com/${testRunID}`
-    json.videoUrl = `${testRunID}/videos/${path.parse(testFileName).name}.mp4`;
+    const bucketUrl = `https://${config.bucketName}.s3.${REGION}.amazonaws.com/${testRunID}`;
+    const { name, ext } = path.parse(testFileName);
+    json.videoUrl = `${bucketUrl}/videos/${name}${ext}.mp4`;
     // json.screenshotUrl = `${bucketUrl}/screenshots/${testFileName}.png`;
 
     const TARGET_PERCENTAGE = 100;

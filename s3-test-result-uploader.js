@@ -5,30 +5,27 @@ require('dotenv').config();
 
 const fileEndingToFileType = (fileEnding) => {
   switch (fileEnding) {
-  case 'json':
-    return 'results';
-  case 'mp4':
-    return 'videos';
-  case 'png':
-    return 'screenshots';
-  default:
-    return new Error();
+    case 'json':
+      return 'results';
+    case 'mp4':
+      return 'videos';
+    case 'png':
+      return 'screenshots';
+    default:
+      return new Error();
   }
 };
 
-const putInBucket = async (
-  pathString,
-  uuid,
-  bucketName,
-  fileType
-) => {
+const putInBucket = async (pathString, uuid, bucketName, fileType) => {
   try {
-    const REGION = config.awsRegion; // TODO: how to get users's region? conifer cdk output? 
+    const REGION = config.awsRegion;
     const s3Client = new S3Client({ region: REGION });
     const fileStream = fs.createReadStream(pathString);
     const uploadParams = {
       Bucket: bucketName,
-      Key: `${process.env.TEST_RUN_ID}/${fileEndingToFileType(fileType)}/${uuid}.${fileType}`,
+      Key: `${process.env.TEST_RUN_ID}/${fileEndingToFileType(
+        fileType
+      )}/${uuid}.${fileType}`,
       Body: fileStream,
     };
 
